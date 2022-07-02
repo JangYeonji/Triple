@@ -21,10 +21,11 @@ public class Review {
     @ManyToOne
     @JoinColumn(name="user_id")
     @JsonManagedReference
-    private User user;
+    private User user_id;
 
     @ManyToOne
     @JoinColumn(name="place_id")
     @JsonManagedReference
-    private Place place;
+    private Place place_id;
+
 }

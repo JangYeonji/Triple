@@ -21,6 +21,6 @@ public class Place {
     private ReviewStatus status;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "place", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place_id", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews;
 }

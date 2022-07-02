@@ -1,5 +1,6 @@
 package com.triple.Triple.service;
 
+import com.triple.Triple.model.Place;
 import com.triple.Triple.model.Review;
 import com.triple.Triple.model.User;
 import com.triple.Triple.model.request.ReviewCreationRequest;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public class TripleService {
     private final PlaceRepository placeRepository;
     private final ReviewRepository reviewRepository;
+//    private final ReviewDtoRepository reviewDtoRepository;
+
     private final UserRepository userRepository;
 
     //readBookById
@@ -33,17 +36,39 @@ public class TripleService {
 
     //createBook
     public Review createReview(ReviewCreationRequest review) {
-        Optional<User> user = userRepository.findById(review.getUserId());
+        Optional<User> user = userRepository.findByUserId(review.getUserId());
+        Optional<Place> place = placeRepository.findByPlaceId(review.getPlaceId());
         if (!user.isPresent()) {
-            throw new EntityNotFoundException(
-                    "User Not Found");
+            throw new EntityNotFoundException("User Not Found");
+        }
+        if (!place.isPresent()) {
+            throw new EntityNotFoundException("Place Not Found");
         }
 
         Review reviewToCreate = new Review();
         BeanUtils.copyProperties(review, reviewToCreate);
-        reviewToCreate.setUser(user.get());
+        reviewToCreate.setUser_id(user.get());
+        reviewToCreate.setPlace_id(place.get());
         return reviewRepository.save(reviewToCreate);
     }
+
+//    public ReviewDto createReviewDto(ReviewDtoCreationRequest review) {
+//        Optional<User> user = userRepository.findByUserId(review.getUserId());
+//        Optional<Place> place = placeRepository.findByPlaceId(review.getPlaceId());
+//        if (!user.isPresent()) {
+//            throw new EntityNotFoundException(
+//                    "User Not Found");
+//        }
+//        if (!place.isPresent()) {
+//            throw new EntityNotFoundException("Place Not Found");
+//        }
+//
+//        ReviewDto reviewToCreate = new ReviewDto();
+//        BeanUtils.copyProperties(review, reviewToCreate);
+//        reviewToCreate.setUser_id(user.get().getUserId());
+//        reviewToCreate.setPlace_id(place.get().getPlaceId());
+//        return reviewDtoRepository.save(reviewToCreate);
+//    }
 
     //deleteBook
     public void deleteReview(Long id){

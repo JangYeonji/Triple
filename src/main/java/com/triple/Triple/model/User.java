@@ -19,6 +19,6 @@ public class User {
     private int point;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "user", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user_id", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews;
 }

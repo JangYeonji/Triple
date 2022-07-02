@@ -28,6 +28,11 @@ public class ReviewController {
         return ResponseEntity.ok(tripleService.createReview(request));
     }
 
+//    @PostMapping("/eventsDto")
+//    public ResponseEntity<ReviewDto> createReviewDto(@RequestBody ReviewDtoCreationRequest request){
+//        return ResponseEntity.ok(tripleService.createReviewDto(request));
+//    }
+
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview (@PathVariable Long reviewId){
         tripleService.deleteReview(reviewId);
