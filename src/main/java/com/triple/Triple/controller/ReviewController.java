@@ -1,46 +1,43 @@
 package com.triple.Triple.controller;
 
 import com.triple.Triple.model.Review;
+import com.triple.Triple.model.ReviewDto;
 import com.triple.Triple.model.request.ReviewCreationRequest;
 import com.triple.Triple.service.ReviewService;
-import com.triple.Triple.service.TripleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class ReviewController {
 
-    private final TripleService tripleService;
+    private final ReviewService reviewService;
+    private Review result;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity readUser(@RequestParam String userId) {
-        return ResponseEntity.ok(tripleService.readUser(userId));
+
+    @GetMapping("/events")
+    public ResponseEntity<String> createReview(@RequestBody ReviewDto review){
+        return ResponseEntity.ok(review.toString());
     }
-
-    @PostMapping("/events")
-    public ResponseEntity<Review> createReview(@RequestBody ReviewCreationRequest request){
-        return ResponseEntity.ok(tripleService.createReview(request));
+//    https://hello-bryan.tistory.com/341?category=745162
+//    @PostMapping("/events")
+//    public ResponseEntity<Review> createReview(@RequestBody Review request){
+//        System.out.println("@@@request : " + request.getReviewId());
+//        result = reviewService.createReview(request);
+//        return ResponseEntity.ok(result);
+//    }
+    @DeleteMapping("/events/{placeId}/{userId}")
+    public ResponseEntity<Review> deleteReview(@PathVariable String placeId, @PathVariable String userId){
+        return ResponseEntity.ok(result);
     }
-
-//    @PostMapping("/eventsDto")
-//    public ResponseEntity<ReviewDto> createReviewDto(@RequestBody ReviewDtoCreationRequest request){
-//        return ResponseEntity.ok(tripleService.createReviewDto(request));
+//    @PutMapping("/events")
+//    public ResponseEntity<Review> updateReview(@RequestBody Review request){
+//        System.out.println("@@@request : " + request.getReviewId());
+//        result = reviewService.updateReview(request);
+//        return ResponseEntity.ok(result);
 //    }
 
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview (@PathVariable Long reviewId){
-        tripleService.deleteReview(reviewId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/{reviewId}")
-    public ResponseEntity<Review> updateReview(@RequestBody ReviewCreationRequest request, @PathVariable Long reviewId){
-        return ResponseEntity.ok(tripleService.updateReview(reviewId,request));
-    }
 }
